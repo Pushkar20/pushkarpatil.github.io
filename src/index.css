@@ -51,46 +51,22 @@ nav {
   scroll-margin-top: 100px;
 }
 
-/* Scrollbar container styling */
 .scroll-container::-webkit-scrollbar {
-  width: 4px; /* Make it thin */
+  width: 3px;
 }
 
-/* The scrollbar track (background) */
 .scroll-container::-webkit-scrollbar-track {
   background: transparent;
 }
 
-/* The scrollbar thumb (the draggable part) */
 .scroll-container::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #00ffff, #0077ff);
   border-radius: 10px;
-  box-shadow: 0 0 6px #00ffff;
-  transition: all 0.3s ease;
-}
-
-/* When hovering or active */
-.scroll-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #00ccff, #0044ff);
-  box-shadow: 0 0 10px #00ffff;
-}
-
-/* Firefox scrollbar styling */
-.scroll-container {
-  scrollbar-width: thin;
-  scrollbar-color: #00ffff transparent;
-}
-
-/* Optional: animate subtle pulse for glowing line effect */
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 6px #00ffff; }
-  50% { box-shadow: 0 0 12px #00ffff; }
-  100% { box-shadow: 0 0 6px #00ffff; }
-}
-
-.scroll-container::-webkit-scrollbar-thumb {
-  background: #00ffff;
-  border-radius: 10px;
-  width: 2px;
   box-shadow: 0 0 8px #00ffff;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 6px #00ffff; }
+  50% { box-shadow: 0 0 12px #00ffff; }
 }

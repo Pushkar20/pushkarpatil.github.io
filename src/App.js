@@ -1,37 +1,31 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import About from "./components/About";
+import Experience from "./components/Experience";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 
 function App() {
   return (
-    <div className="bg-gray-950 text-gray-100 min-h-screen">
+    <div className="relative bg-gray-950 text-gray-100 min-h-screen overflow-hidden">
+      {/* Foreground Content */}
       <Navbar />
-
-      <main className="flex flex-col items-center">
-        <section id="hero">
-          <Hero />
-        </section>
-
-        <section id="about" className="w-full">
-          <About />
-        </section>
-
-        <section id="skills" className="w-full">
-          <Skills />
-        </section>
-
-        <section id="projects" className="w-full">
-          <Projects />
-        </section>
-
-        <section id="contact" className="w-full">
-          <Contact />
-        </section>
-      </main>
+      <section id="hero">
+        <Hero />
+      </section>
+      <section id="experience">
+        <Experience />
+      </section>
+      <section id="skills">
+        <Skills />
+      </section>
+      <section id="projects">
+        <Projects />
+      </section>
+      <section id="contact">
+        <Contact />
+      </section>
     </div>
   );
 }

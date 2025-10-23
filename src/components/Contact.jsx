@@ -4,63 +4,45 @@ import { Mail, Linkedin, Github } from "lucide-react";
 
 const Contact = () => {
   return (
-    <section
+    <footer
       id="contact"
-      className="min-h-[70vh] flex flex-col justify-center items-center bg-gray-900 text-gray-100 px-6 py-16"
+      className="bg-gray-900 text-gray-300 py-12 flex flex-col items-center border-t border-gray-800"
     >
       <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-4xl font-bold mb-10"
-      >
-        Contact
-      </motion.h2>
-
-      <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-        className="text-center text-gray-300 max-w-xl mb-8 leading-relaxed"
+        transition={{ duration: 0.6 }}
+        className="text-3xl font-semibold mb-6 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
       >
-        I’m always open to discussing new opportunities, collaborations, or sharing ideas.  
-        Feel free to connect with me on any of the platforms below 👇
-      </motion.p>
+        Let's Connect
+      </motion.h2>
 
-      <div className="flex gap-8 mt-4">
-        <motion.a
-          href="mailto:pushkarpatil@example.com"
-          whileHover={{ scale: 1.15 }}
-          className="text-gray-300 hover:text-blue-400 transition flex items-center gap-2"
-        >
-          <Mail size={24} /> <span>Email</span>
-        </motion.a>
-
-        <motion.a
-          href="https://linkedin.com/in/pushkarpatil"
+      <div className="flex gap-6 mb-4">
+        <a href="mailto:your@email.com" className="hover:text-blue-400 transition">
+          <Mail />
+        </a>
+        <a
+          href="https://linkedin.com/in/yourprofile"
           target="_blank"
           rel="noopener noreferrer"
-          whileHover={{ scale: 1.15 }}
-          className="text-gray-300 hover:text-blue-400 transition flex items-center gap-2"
+          className="hover:text-blue-400 transition"
         >
-          <Linkedin size={24} /> <span>LinkedIn</span>
-        </motion.a>
-
-        <motion.a
-          href="https://github.com/pushkarpatil"
+          <Linkedin />
+        </a>
+        <a
+          href="https://github.com/yourusername"
           target="_blank"
           rel="noopener noreferrer"
-          whileHover={{ scale: 1.15 }}
-          className="text-gray-300 hover:text-blue-400 transition flex items-center gap-2"
+          className="hover:text-blue-400 transition"
         >
-          <Github size={24} /> <span>GitHub</span>
-        </motion.a>
+          <Github />
+        </a>
       </div>
 
-      <p className="text-sm text-gray-500 mt-10">
+      <p className="text-xs text-gray-500">
         © {new Date().getFullYear()} Pushkar Patil — Built with React & Tailwind
       </p>
-    </section>
+    </footer>
   );
 };
 

@@ -100,30 +100,29 @@ function Constellation({ data }) {
   );
 }
 
-/* ---------- DRAGGABLE BIG STAR (robust, no jitter) ---------- */
+/* ---------- DRAGGABLE BIG STAR (robust + correct scaling) ---------- */
 function FloatingSkillStar({ skill, onUpdatePosition, controlsRef }) {
   const ref = useRef();
   const { camera } = useThree();
   const [dragging, setDragging] = useState(false);
   const [hovered, setHovered] = useState(false);
 
-  // stable start Z and lerp target
   const startZ = useMemo(() => skill.position[2], [skill.position]);
   const lerpTarget = useRef(new THREE.Vector3(...skill.position));
-  // offset between pointer intersection and object center in world coords
   const worldOffset = useRef(new THREE.Vector3(0, 0, 0));
-  // raycaster reused
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
-  const tempVec = useMemo(() => new THREE.Vector3(), []);
   const idleOffset = useMemo(() => Math.random() * Math.PI * 2, []);
 
-  // load glowing star texture (place in public/textures/star-glow.png)
+  // Load glowing star texture (in public/textures/star-glow.png)
   const texture = useLoader(
     TextureLoader,
     process.env.PUBLIC_URL + "/textures/star-glow.png"
   );
 
-  // ensure mesh initially sits at skill.position (keeps sync)
+  // --- Base size based on skill.size (default fallback) ---
+  const baseSize = skill.size ?? 0.9;
+
+  // ensure mesh initially sits at skill.position
   useEffect(() => {
     if (ref.current) {
       ref.current.position.set(skill.position[0], skill.position[1], skill.position[2]);
@@ -131,94 +130,72 @@ function FloatingSkillStar({ skill, onUpdatePosition, controlsRef }) {
     }
   }, [skill.position]);
 
-  // smooth lerp each frame
+  /* ---------- FRAME LOOP (idle bob + pulse + smooth follow) ---------- */
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
     const baseY = skill.position[1] + Math.sin(t * 0.5 + idleOffset) * 0.06;
 
-    // subtle pulse shimmer
+    // Subtle shimmer pulse, now scaled properly by baseSize
     const pulse = 0.8 + Math.sin(t * 2 + idleOffset) * 0.12;
     if (ref.current?.children?.[0]) {
-      ref.current.children[0].material.opacity = hovered ? 1.0 : 0.75 * pulse;
-      ref.current.children[0].scale.setScalar(1.0 + 0.1 * Math.sin(t * 2 + idleOffset));
+      const sprite = ref.current.children[0];
+      sprite.material.opacity = hovered ? 1.0 : 0.75 * pulse;
+
+      const hoverFactor = hovered ? 1.18 : 1.0;
+      const animated = baseSize * (hoverFactor * (1.0 + 0.1 * Math.sin(t * 2 + idleOffset)));
+      sprite.scale.setScalar(animated);
     }
 
     if (!dragging) {
-      // when not dragging keep lerpTarget near skill position+idle
       lerpTarget.current.x = skill.position[0];
       lerpTarget.current.y = baseY;
       lerpTarget.current.z = startZ;
     }
 
     if (ref.current) {
-      // lerp with smoothing factor
       ref.current.position.lerp(lerpTarget.current, 0.22);
     }
   });
 
-  // pointer down: compute stable offset and start dragging
+  /* ---------- POINTER EVENTS (drag logic) ---------- */
   const handlePointerDown = (e) => {
     e.stopPropagation();
-    // disable orbit controls while dragging
     if (controlsRef?.current) controlsRef.current.enabled = false;
-
     setDragging(true);
-    try {
-      e.target.setPointerCapture(e.pointerId);
-    } catch (err) {}
+    try { e.target.setPointerCapture(e.pointerId); } catch {}
 
-    // intersection point (world)
     const p = e.point.clone ? e.point.clone() : new THREE.Vector3().copy(e.point);
-    // store offset = objectPos - intersection
-    if (ref.current) {
-      worldOffset.current.subVectors(ref.current.position, p);
-    } else {
-      worldOffset.current.set(0, 0, 0);
-    }
+    if (ref.current) worldOffset.current.subVectors(ref.current.position, p);
+    else worldOffset.current.set(0, 0, 0);
   };
 
-  // pointer move: raycast and compute new world pos constrained to same Z
   const handlePointerMove = (e) => {
     if (!dragging) return;
     e.stopPropagation();
 
-    // Use e.ray / e.point where available. e.point is reliable for intersection with our mesh.
-    // But to be extra robust we compute a ray from camera through screen coords and intersect with a Z-plane at startZ.
-    const pointer = e.pointer; // { x, y } in normalized device coords provided by drei
-    // set ray from camera through pointer
+    const pointer = e.pointer;
     raycaster.setFromCamera(pointer, camera);
-    // create plane z = startZ
     const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -startZ);
     const intersection = new THREE.Vector3();
     raycaster.ray.intersectPlane(plane, intersection);
 
     if (intersection) {
-      // apply offset so object doesn't jump
       intersection.add(worldOffset.current);
-      // lock z to startZ
       intersection.z = startZ;
       lerpTarget.current.copy(intersection);
-      // do NOT spam parent state continuously — we only call update at release to persist final position.
-      // If you want live updates, you can uncomment the next line, but it may cause more re-renders:
-      // onUpdatePosition(skill.id, [intersection.x, intersection.y, intersection.z]);
     }
   };
 
-  // pointer up: end dragging; persist final position
   const handlePointerUp = (e) => {
     e.stopPropagation();
     setDragging(false);
-    try {
-      e.target.releasePointerCapture(e.pointerId);
-    } catch (err) {}
-    // re-enable orbit controls
+    try { e.target.releasePointerCapture(e.pointerId); } catch {}
     if (controlsRef?.current) controlsRef.current.enabled = true;
-    // persist final position to parent
-    if (lerpTarget.current) {
+    if (lerpTarget.current)
       onUpdatePosition(skill.id, [lerpTarget.current.x, lerpTarget.current.y, lerpTarget.current.z]);
-    }
   };
 
+  /* ---------- RENDER ---------- */
   return (
     <group
       ref={ref}
@@ -229,8 +206,8 @@ function FloatingSkillStar({ skill, onUpdatePosition, controlsRef }) {
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
-      {/* --- Glowing sprite star replaces sphere mesh --- */}
-      <sprite scale={[0.9, 0.9, 0.9]}>
+      {/* --- Glowing sprite star --- */}
+      <sprite scale={[baseSize, baseSize, baseSize]}>
         <spriteMaterial
           map={texture}
           color={skill.color}
@@ -243,17 +220,19 @@ function FloatingSkillStar({ skill, onUpdatePosition, controlsRef }) {
 
       {/* --- Floating label below star --- */}
       <Html distanceFactor={10} position={[0, -0.6, 0]}>
-        <div style={{
-          color: "white",
-          background: "rgba(0,0,0,0.55)",
-          padding: "6px 10px",
-          borderRadius: 8,
-          fontSize: 14,
-          textAlign: "center",
-          pointerEvents: "none",
-          transform: `scale(${hovered ? 1.08 : 1})`,
-          transition: "transform 0.16s"
-        }}>
+        <div
+          style={{
+            color: "white",
+            background: "rgba(0,0,0,0.55)",
+            padding: "6px 10px",
+            borderRadius: 8,
+            fontSize: 14,
+            textAlign: "center",
+            pointerEvents: "none",
+            transform: `scale(${hovered ? 1.08 : 1})`,
+            transition: "transform 0.16s",
+          }}
+        >
           {skill.name}
         </div>
       </Html>

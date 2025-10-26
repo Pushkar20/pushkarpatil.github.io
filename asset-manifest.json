@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.45943002.css",
-    "main.js": "/static/js/main.163de7b8.js",
-    "index.html": "/index.html",
-    "main.45943002.css.map": "/static/css/main.45943002.css.map",
-    "main.163de7b8.js.map": "/static/js/main.163de7b8.js.map"
+    "main.css": "/pushkarpatil.github.io/static/css/main.3e6e1fb6.css",
+    "main.js": "/pushkarpatil.github.io/static/js/main.a25e04ae.js",
+    "index.html": "/pushkarpatil.github.io/index.html",
+    "main.3e6e1fb6.css.map": "/pushkarpatil.github.io/static/css/main.3e6e1fb6.css.map",
+    "main.a25e04ae.js.map": "/pushkarpatil.github.io/static/js/main.a25e04ae.js.map"
   },
   "entrypoints": [
-    "static/css/main.45943002.css",
-    "static/js/main.163de7b8.js"
+    "static/css/main.3e6e1fb6.css",
+    "static/js/main.a25e04ae.js"
   ]
 }

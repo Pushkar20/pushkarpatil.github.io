@@ -7,7 +7,7 @@ const experiences = [
     role: "Junior Software Developer",
     company: "Mercedes-Benz Research and Development India",
     location: "Bengaluru, Karnataka",
-    image: "/images/mercedes-banner.jpg",
+    image: `${process.env.PUBLIC_URL}/images/mercedes-banner.jpg`,
     points: [
       "Designed, developed, and validated ADAS software modules in C++ using V-SDLC and Agile.",
       "Built automated HIL/SIL test frameworks and diagnostic tools in Python/CAPL, integrating CANoe.",
@@ -20,7 +20,7 @@ const experiences = [
     role: "IoT and Embedded Systems Developer - Intern",
     company: "Uilatech LLP",
     location: "Belagavi, Karnataka",
-    image: "/images/uilatech-banner.jpg",
+    image: `${process.env.PUBLIC_URL}/images/uilatech-banner.jpg`,
     points: [
       "Programmed embedded systems using C/C++ for home automation using ESP microcontrollers.",
       "Integrated AWS for cloud-based monitoring and control of automation systems."
@@ -31,7 +31,7 @@ const experiences = [
     role: "Research Intern",
     company: "KLE’s Dr. Prabhakar Kore Hospital & Medical Research Centre",
     location: "Belagavi, Karnataka",
-    image: "/images/kle-banner.jpg",
+    image: `${process.env.PUBLIC_URL}/images/kle-banner.jpg`,
     points: [
       "Compared U-Net, V-Net, and nnU-net for segmentation.",
       "Achieved a Dice score of 0.95 and 97% accuracy in classification algorithms."
@@ -64,7 +64,7 @@ const Experience = () => {
   return (
     <section
       id="experience"
-      className="relative bg-gray-900 text-gray-200 py-16 px-6 flex flex-col items-center"
+      className="relative bg-gray-900/40 backdrop-blur-md text-gray-200 py-16 px-6 flex flex-col items-center"
     >
       {/* Section Title */}
       <motion.h2

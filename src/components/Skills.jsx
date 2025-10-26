@@ -23,7 +23,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="relative bg-gray-900 text-gray-200 py-20 px-6 flex flex-col items-center overflow-hidden"
+      className="relative bg-gray-900/40 backdrop-blur-md text-gray-200 py-20 px-6 flex flex-col items-center overflow-hidden"
     >
       <motion.h2
         initial={{ opacity: 0, y: -20 }}

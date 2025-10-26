@@ -6,7 +6,7 @@ const Contact = () => {
   return (
     <footer
       id="contact"
-      className="bg-gray-900 text-gray-300 py-12 flex flex-col items-center border-t border-gray-800"
+      className="bg-gray-900/40 backdrop-blur-md text-gray-300 py-12 flex flex-col items-center border-t border-gray-800"
     >
       <motion.h2
         initial={{ opacity: 0 }}
@@ -18,11 +18,11 @@ const Contact = () => {
       </motion.h2>
 
       <div className="flex gap-6 mb-4">
-        <a href="mailto:your@email.com" className="hover:text-blue-400 transition">
+        <a href="mailto:pushu200020@email.com" className="hover:text-blue-400 transition">
           <Mail />
         </a>
         <a
-          href="https://linkedin.com/in/yourprofile"
+          href="https://linkedin.com/in/patil-pushkar20"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-blue-400 transition"
@@ -30,7 +30,7 @@ const Contact = () => {
           <Linkedin />
         </a>
         <a
-          href="https://github.com/yourusername"
+          href="https://github.com//Pushkar20"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-blue-400 transition"

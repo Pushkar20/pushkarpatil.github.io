@@ -1,16 +1,13 @@
-// src/data/constellationsData.js
-// Positions are in 3D space (x,y,z). Tune positions to taste.
-// Icons should be placed in public/icons/ (PNG or SVG). Use lowercase filenames.
-
 const base = process.env.PUBLIC_URL + "/icons/";
 
 const constellations = [
   {
-    id: "programming",
-    name: "Programming",
+    id: "python",
+    name: "Python",
     color: "#61dafb",
-    icon: base + "python-icon.png",          // faint background image (replace per skill)
+    icon: base + "python-icon.png",
     position: [-4, 0.5, 0],
+    size: 3,
     points: [
       [0.0, 0.0, 0.0],
       [0.9, 0.1, 0.2],
@@ -24,8 +21,9 @@ const constellations = [
     id: "ai",
     name: "AI / ML",
     color: "#c084fc",
-    icon: base + "brain-icon.png",
+    icon: base + "ai-icon.png",
     position: [0, -3, -1],
+    size: 3.5,
     points: [
       [0, 0.0, 0],
       [1.1, -0.2, 0.4],
@@ -35,11 +33,12 @@ const constellations = [
     connections: [[0,1],[0,2],[2,3]]
   },
   {
-    id: "systems",
-    name: "Systems",
+    id: "cpp",
+    name: "C++",
     color: "#86efac",
-    icon: base + "circuit-icon.png",
+    icon: base + "cpp-icon.png",
     position: [4, 1, -0.5],
+    size: 3.2,
     points: [
       [0, 0, 0],
       [0.7, 0.9, 0.2],
@@ -49,11 +48,12 @@ const constellations = [
     connections: [[0,1],[0,2],[2,3]]
   },
   {
-    id: "tools",
-    name: "Tools",
+    id: "ansible",
+    name: "Ansible",
     color: "#ffd166",
-    icon: base + "tools-icon.png",
+    icon: base + "ansible-icon.png",
     position: [0, 3.2, 0.5],
+    size: 3.0,
     points: [
       [0, 0, 0],
       [0.6, 0.5, 0.1],
@@ -62,11 +62,12 @@ const constellations = [
     connections: [[0,1],[0,2]]
   },
   {
-    id: "testing",
-    name: "Testing",
+    id: "automation",
+    name: "Automation",
     color: "#7dd3fc",
-    icon: base + "test-icon.png",
+    icon: base + "automation-icon.png",
     position: [-3.8, -2.6, 0.3],
+    size: 3.5,
     points: [
       [0,0,0],
       [0.4,0.8,0.2],

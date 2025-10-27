@@ -90,17 +90,17 @@ const StarryBackground = () => {
 
     // 💫 Rare, dramatic shooting stars
     const interval = setInterval(() => {
-      if (Math.random() < 0.25) spawnShootingStar(); // 25% chance every 8–10s
-    }, 8000 + Math.random() * 2000);
+      if (Math.random() < 0.8) spawnShootingStar(); // 80% chance every 5-7s
+    }, 5000 + Math.random() * 2000);
 
     // 🌟 occasional interaction trigger
-    const handleInteraction = () => {
-      if (Math.random() < 0.4) spawnShootingStar();
-    };
+    // const handleInteraction = () => {
+    //   if (Math.random() < 0.4) spawnShootingStar();
+    // };
 
-    window.addEventListener("scroll", handleInteraction);
-    window.addEventListener("mousemove", handleInteraction);
-    window.addEventListener("click", handleInteraction);
+    // window.addEventListener("scroll", handleInteraction);
+    // window.addEventListener("mousemove", handleInteraction);
+    // window.addEventListener("click", handleInteraction);
 
     draw();
 
@@ -113,9 +113,9 @@ const StarryBackground = () => {
     return () => {
       clearInterval(interval);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleInteraction);
-      window.removeEventListener("mousemove", handleInteraction);
-      window.removeEventListener("click", handleInteraction);
+      // window.removeEventListener("scroll", handleInteraction);
+      // window.removeEventListener("mousemove", handleInteraction);
+      // window.removeEventListener("click", handleInteraction);
     };
   }, []);
 

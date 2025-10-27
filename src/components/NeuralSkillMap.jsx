@@ -64,8 +64,14 @@ function Constellation({ data }) {
   return (
     <group ref={group}>
       <mesh position={[data.position[0], data.position[1], data.position[2] - 1.2]}>
-        <planeGeometry args={[3.2, 3.2]} />
-        <meshBasicMaterial map={icon} transparent opacity={hovered ? 0.30 : 0.22} toneMapped={false} />
+        {/* dynamically scale icon plane based on constellation size */}
+        <planeGeometry args={[data.size ?? 3.2, data.size ?? 3.2]} />
+        <meshBasicMaterial
+          map={icon}
+          transparent
+          opacity={hovered ? 0.3 : 0.22}
+          toneMapped={false}
+        />
       </mesh>
 
       {data.connections.map((c, i) => {
@@ -294,7 +300,7 @@ export default function NeuralConstellation({ styleHeight = "80vh" }) {
       </Canvas>
 
       <div style={{ position: "absolute", top: 16, width: "100%", textAlign: "center", color: "rgba(120,230,255,0.95)", fontSize: 28, fontWeight: 800 }}>
-        Skill Tree 🎄
+        Skills
       </div>
 
       <button onClick={resetPositions} style={{ position: "absolute", bottom: 20, right: 20, background: "rgba(30,30,30,0.72)", color: "white", border: "1px solid rgba(255,255,255,0.18)", padding: "8px 12px", borderRadius: 8, cursor: "pointer", backdropFilter: "blur(4px)", fontWeight: 600 }}>

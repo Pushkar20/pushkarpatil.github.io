@@ -5,31 +5,31 @@ const About = () => {
   return (
     <section className="flex flex-col items-center justify-center min-h-screen text-center px-6 bg-gray-900/40 backdrop-blur-md">
       {/* Name */}
-      <motion.h1
+      {/* <motion.h1
         initial={{ opacity: 0, y: -40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
-        className="font-skyscrapers text-5xl sm:text-6xl bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+        className="font-nevis text-5xl sm:text-6xl bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
       >
         Pushkar Patil
-      </motion.h1>
+      </motion.h1> */}
 
       {/* Tagline */}
-      <motion.p
+      {/* <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 1 }}
-        className="font-soria mt-4 text-xl text-gray-300"
+        className="font-nevis mt-4 text-xl text-gray-300"
       >
         Software Developer | Embedded Systems | Automotive Software
-      </motion.p>
+      </motion.p> */}
 
       {/* About Me Heading */}
       <motion.h3
         initial={{ opacity: 0, y: -10 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="font-soria text-4xl font-bold mt-16 mb-8 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+        className="font-nevis text-4xl font-bold mt-16 mb-8 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
       >
         About Me
       </motion.h3>
@@ -39,7 +39,7 @@ const About = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="font-soria max-w-3xl text-center text-gray-300 bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg p-8 leading-relaxed"
+        className="font-nevis max-w-3xl text-center text-gray-300 bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg p-8 leading-relaxed"
       >
         <p className="mb-4">
           Hi, I'm <span className="text-blue-400 font-semibold">Pushkar Patil</span>, a passionate Software Developer with 2.5+ years of experience in Embedded Systems and Automotive Software.
@@ -60,7 +60,7 @@ const About = () => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
-        className="font-soria mt-10"
+        className="font-nevis mt-10"
       >
         <a
           href="#projects"

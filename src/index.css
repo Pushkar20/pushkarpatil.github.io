@@ -1,72 +1,125 @@
+/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles */
-html {
-  scroll-behavior: smooth;
+/* ---------- load local fonts (safe for dev + GH Pages) ---------- */
+@font-face {
+  font-family: 'OstrichSansFont';
+  src: url('./../public/fonts/OstrichSansInline-Regular.otf') format('opentype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SoriaFont';
+  src: url('./../public/fonts/soria-font.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SkyscrapersFont';
+  src: url('./../public/fonts/Skyscapers.ttf') format('truetype');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NevisFont';
+  src: url('./../public/fonts/nevis.ttf') format('truetype');
+  font-display: swap;
+}
+
+/* Tailwind base tweaks */
+:root {
+  --bg-top: #071021;
+  --bg-bottom: #071827;
+  --text: #E6EEF6;
+  --muted: #9FB3C8;
+  --glass: rgba(255,255,255,0.03);
+}
+
+/* global background */
+html, body, #root {
+  height: 100%;
 }
 
 body {
-  background: radial-gradient(circle at top left, #0f172a, #020617);
-  color: #e2e8f0;
-  font-family: 'Inter', sans-serif;
+  @apply font-nevis bg-[linear-gradient(180deg,var(--bg-top),var(--bg-bottom))] text-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-section {
-  padding: 5rem 1rem;
+/* section container used everywhere for consistent spacing */
+.section {
+  padding: 4.5rem 1rem;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-/* For glassy effect cards */
+/* glass card helper */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 1rem;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  transition: transform 300ms ease, box-shadow 300ms ease, border-color 300ms ease;
 }
 
-/* Fix hover scale overflow */
-* {
-  overflow-anchor: none;
+/* subtle hover lift for glass items */
+.glass:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 50px rgba(2,6,23,0.7);
+  border-color: rgba(139,224,255,0.12);
 }
 
-/* Section glow effect */
-section:hover {
-  transition: all 0.6s ease;
-  box-shadow: 0 0 40px rgba(34, 211, 238, 0.15);
-  border-radius: 1rem;
+/* heading styles */
+.h-section-title {
+  font-family: var(--font-nevis, 'SoriaFont'), Inter, system-ui, sans-serif;
+  color: #8BE0FF;
+  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1.6rem;
+  text-shadow: 0 6px 30px rgba(123,180,255,0.04);
 }
 
-/* Make navbar stand out */
-nav {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(15px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* body text utility */
+.text-muted {
+  color: var(--muted);
 }
 
+/* small utilities for pastel accents */
+.accent {
+  background: linear-gradient(90deg,#8BE0FF 0%, #7CB3FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* subtle sections that blend (no heavy boxes) */
+.section-blend {
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+/* smooth anchor scrolling offset for nav */
 :target {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 92px;
 }
 
-.scroll-container::-webkit-scrollbar {
-  width: 3px;
+/* carousel arrow style (reusable) */
+.carousel-btn {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  color: var(--text);
+  padding: 10px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(2,6,23,0.45);
+  transition: transform .18s ease, background .18s ease;
 }
+.carousel-btn:hover { transform: translateY(-4px); background: rgba(255,255,255,0.05); }
 
-.scroll-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scroll-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #00ffff, #0077ff);
-  border-radius: 10px;
-  box-shadow: 0 0 8px #00ffff;
-  animation: pulseGlow 2s infinite ease-in-out;
-}
-
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 6px #00ffff; }
-  50% { box-shadow: 0 0 12px #00ffff; }
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .h-section-title { font-size: 1.6rem; }
+  .section { padding: 3rem 1rem; }
 }

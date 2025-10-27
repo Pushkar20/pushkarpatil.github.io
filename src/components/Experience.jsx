@@ -67,14 +67,14 @@ const Experience = () => {
       className="relative bg-gray-900/40 backdrop-blur-md text-gray-200 py-16 px-6 flex flex-col items-center"
     >
       {/* Section Title */}
-      <motion.h2
+      {/* <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="text-4xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
       >
         Experience
-      </motion.h2>
+      </motion.h2> */}
 
       {/* Outer Container */}
       <div className="relative flex w-full max-w-5xl h-[75vh] bg-gray-800/30 backdrop-blur-md border border-gray-700 rounded-2xl overflow-hidden shadow-lg">

@@ -43,7 +43,7 @@ html, body, #root {
 }
 
 body {
-  @apply font-nevis bg-[linear-gradient(180deg,var(--bg-top),var(--bg-bottom))] text-text;
+  @apply font-nevis text-text bg-transparent;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

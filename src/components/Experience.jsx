@@ -1,6 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+import { FaToggleOn, FaToggleOff, FaExternalLinkAlt } from "react-icons/fa";
 
+/*
+  Experiences data (keep images in public/images/)
+*/
 const experiences = [
   {
     year: "2023–Present",
@@ -39,119 +43,177 @@ const experiences = [
   },
 ];
 
-const Experience = () => {
+/* ---------------------------
+   CHILD: ScrollTimeline
+   This component contains the useScroll logic and is only mounted
+   when the scroll view is required (prevents hydration errors).
+   --------------------------- */
+function ScrollTimeline({ items }) {
+  // NOTE: useScroll and useTransform are declared here (inside this child component)
+  // so they only run when this component is actually mounted.
+  const { useScroll, useTransform } = require("framer-motion"); // lazy require keeps top-level import minimal
   const scrollRef = useRef(null);
+
   const { scrollYProgress } = useScroll({ container: scrollRef });
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   const [activeIndex, setActiveIndex] = useState(0);
 
+  // onScroll compute active index
   useEffect(() => {
     const container = scrollRef.current;
+    if (!container) return;
     const handleScroll = () => {
       const scrollTop = container.scrollTop;
       const scrollHeight = container.scrollHeight - container.clientHeight;
+      if (scrollHeight <= 0) {
+        setActiveIndex(0);
+        return;
+      }
       const progress = scrollTop / scrollHeight;
-      const newIndex = Math.min(
-        experiences.length - 1,
-        Math.floor(progress * experiences.length)
-      );
+      const newIndex = Math.min(items.length - 1, Math.floor(progress * items.length));
       setActiveIndex(newIndex);
     };
     container.addEventListener("scroll", handleScroll);
+    // call once to set initial highlight
+    handleScroll();
     return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [items]);
 
   return (
-    <section
-      id="experience"
-      className="relative bg-gray-900/40 backdrop-blur-md text-gray-200 py-16 px-6 flex flex-col items-center"
-    >
-      {/* Section Title */}
-      {/* <motion.h2
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-4xl font-bold mb-8 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
+    <div className="relative flex w-full max-w-5xl h-[72vh] bg-gray-800/30 backdrop-blur-md border border-gray-700 rounded-2xl overflow-hidden shadow-lg">
+      <div
+        ref={scrollRef}
+        className="scroll-container flex-1 overflow-y-scroll p-6 space-y-8 scrollbar-hide"
       >
-        Experience
-      </motion.h2> */}
+        {items.map((exp, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.06 }}
+            viewport={{ once: true }}
+            className="bg-gray-800/60 rounded-xl border border-gray-700 shadow-md overflow-hidden"
+          >
+            <div className="relative h-36">
+              <img
+                src={exp.image}
+                alt={exp.company}
+                className="w-full h-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
+            </div>
 
-      {/* Outer Container */}
-      <div className="relative flex w-full max-w-5xl h-[75vh] bg-gray-800/30 backdrop-blur-md border border-gray-700 rounded-2xl overflow-hidden shadow-lg">
+            <div className="p-5">
+              <h3 className="text-lg font-semibold text-blue-400">{exp.role}</h3>
+              <p className="text-sm text-gray-400">{exp.company}</p>
+              <p className="text-xs text-gray-500 mb-3">{exp.year} • {exp.location}</p>
+              <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
+                {exp.points.map((point, i) => <li key={i}>{point}</li>)}
+              </ul>
+            </div>
+          </motion.div>
+        ))}
+      </div>
 
-        {/* Scrollable Inner Section */}
-        <div
-          ref={scrollRef}
-          className="scroll-container flex-1 overflow-y-scroll p-6 space-y-8 scrollbar-hide"
-        >
-          {experiences.map((exp, index) => (
+      {/* Timeline track */}
+      <div className="relative w-14 flex flex-col items-center justify-center">
+        <div className="absolute top-6 bottom-6 w-[3px] bg-gray-700/50 rounded-full overflow-hidden">
+          <motion.div
+            className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-[0_0_10px_2px_rgba(59,130,246,0.35)]"
+            style={{ scaleY, originY: 0 }}
+          />
+        </div>
+
+        <div className="absolute top-0 bottom-0 flex flex-col justify-between py-6">
+          {items.map((exp, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="bg-gray-800/60 rounded-xl border border-gray-700 shadow-md overflow-hidden"
+              key={i}
+              initial={{ opacity: 0.4, y: 10 }}
+              animate={{
+                opacity: activeIndex === i ? 1 : 0.4,
+                scale: activeIndex === i ? 1.05 : 1,
+                y: 0,
+              }}
+              transition={{ duration: 0.35 }}
+              className={`text-xs font-semibold ${activeIndex === i ? "text-cyan-400" : "text-gray-500"}`}
             >
-              <div className="relative h-32">
-                <img
-                  src={exp.image}
-                  alt={exp.company}
-                  className="w-full h-full object-cover opacity-80"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent"></div>
-              </div>
-
-              <div className="p-5">
-                <h3 className="text-lg font-semibold text-blue-400">{exp.role}</h3>
-                <p className="text-sm text-gray-400">{exp.company}</p>
-                <p className="text-xs text-gray-500 mb-3">
-                  {exp.year} • {exp.location}
-                </p>
-                <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
-                  {exp.points.map((point, i) => (
-                    <li key={i}>{point}</li>
-                  ))}
-                </ul>
-              </div>
+              {exp.year}
             </motion.div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Custom Animated Timeline */}
-        <div className="relative w-14 flex flex-col items-center justify-center">
-          {/* Timeline Track */}
-          <div className="absolute top-6 bottom-6 w-[3px] bg-gray-700/50 rounded-full overflow-hidden">
-            <motion.div
-              className="absolute top-0 left-0 w-full bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full shadow-[0_0_10px_2px_rgba(59,130,246,0.4)]"
-              style={{ scaleY, originY: 0 }}
-            />
-          </div>
+/* ---------------------------
+   PARENT: Experience
+   Shows either the clean vertical timeline (default) or the scroll timeline when toggled.
+   --------------------------- */
+export default function Experience() {
+  // show the CLEAN alternate timeline by default (as you requested)
+  const [showScrollView, setShowScrollView] = useState(false);
 
-          {/* Year Markers */}
-          <div className="absolute top-0 bottom-0 flex flex-col justify-between py-6">
-            {experiences.map((exp, i) => (
+  return (
+    <section id="experience" className="relative text-gray-200 py-24 px-6 flex flex-col items-center">
+      {/* Title + toggle */}
+      <div className="flex justify-between w-full max-w-5xl items-center mb-10">
+        <motion.h3
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="font-nevis text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+        >
+          Experience
+        </motion.h3>
+
+        <button
+          onClick={() => setShowScrollView((v) => !v)}
+          className="flex items-center gap-2 bg-gray-800/60 hover:bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-medium border border-gray-600 transition"
+          aria-pressed={showScrollView}
+        >
+          {showScrollView ? (<><FaToggleOn className="text-cyan-400" /> Scroll View</>) : (<><FaToggleOff className="text-gray-400" /> Timeline View</>)}
+        </button>
+      </div>
+
+      {/* If toggle OFF -> show clean vertical "alternate" timeline (default) */}
+      {!showScrollView ? (
+        <div className="w-full max-w-5xl relative pl-8">
+          <div className="absolute left-6 top-0 bottom-0 w-[2px] bg-gray-700/50 rounded"></div>
+          <div className="space-y-12">
+            {experiences.map((exp, idx) => (
               <motion.div
-                key={i}
-                initial={{ opacity: 0.4, y: 10 }}
-                animate={{
-                  opacity: activeIndex === i ? 1 : 0.4,
-                  scale: activeIndex === i ? 1.1 : 1,
-                  y: 0,
-                }}
-                transition={{ duration: 0.4 }}
-                className={`text-xs font-semibold ${
-                  activeIndex === i ? "text-cyan-400" : "text-gray-500"
-                }`}
+                key={idx}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.06 }}
+                viewport={{ once: true }}
+                className="relative"
               >
-                {exp.year}
+                <div className="absolute -left-8 top-2 w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_0_14px_rgba(59,130,246,0.35)]" />
+                <div className="bg-gray-800/30 border border-gray-700 rounded-xl p-6 backdrop-blur-sm shadow-md">
+                  <h3 className="text-lg font-semibold text-cyan-300">
+                    {exp.role} <span className="text-gray-300 font-medium">• {exp.company}</span>
+                  </h3>
+                  <p className="text-sm text-gray-400 mb-3">{exp.year} • {exp.location}</p>
+                  <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
+                    {exp.points.map((p, i) => <li key={i}>{p}</li>)}
+                  </ul>
+                  <div className="mt-3">
+                    <a href="#" className="inline-flex items-center text-cyan-400 text-xs hover:underline">
+                      <FaExternalLinkAlt className="mr-1" /> View Project
+                    </a>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </div>
+      ) : (
+        // SHOW the scroll timeline component (which contains useScroll inside)
+        <ScrollTimeline items={experiences} />
+      )}
     </section>
   );
-};
-
-export default Experience;
+}

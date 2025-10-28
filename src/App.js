@@ -6,7 +6,7 @@ import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import StarryBackground from "./components/StarryBackground";
-import NeuralSkillMap from "./components/NeuralSkillMap";
+import Skills from "./components/Skills";
 
 function App() {
   return (
@@ -18,36 +18,21 @@ function App() {
         <section id="hero">
           <Hero />
         </section>
+        
         <section id="about">
           <About />
         </section>
-        <section id="experience" className="section section-blend">
-          <h2 className="h-section-title">Experience</h2>
-          <div className="glass p-6">
-            {/* your scrollable Experience card area */}
-            <Experience />
-          </div>
+
+        <section id="experience">
+          <Experience />
         </section>
 
-        <section id="skills" className="section section-blend">
-          <h2 className="h-section-title">Skills</h2>
-          <div className="flex items-center justify-end gap-3">
-            <span className="text-sm text-muted mr-2">Play mode</span>
-            <input type="checkbox" id="play" className="toggle-checkbox" />
-          </div>
-
-          <div className="glass p-6">
-            {/* insert your 3D canvas component or skill orbs here */}
-            <NeuralSkillMap styleHeight="420px" />
-          </div>
+        <section id="skills">
+          <Skills />
         </section>
 
-        <section id="projects" className="section section-blend">
-          <h2 className="h-section-title">Projects</h2>
-          <div>
-            {/* your project cards - make each card .glass and smaller padding */}
-            <Projects />
-          </div>
+        <section id="projects">
+          <Projects />
         </section>
 
         <section id="contact">

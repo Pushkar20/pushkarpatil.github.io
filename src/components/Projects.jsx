@@ -30,7 +30,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="relative bg-gray-900/40 backdrop-blur-md text-gray-200 py-20 px-6 flex flex-col items-center"
+      className="relative text-gray-200 py-24 px-6 flex flex-col items-center"
     >
       <motion.h2
         initial={{ opacity: 0, y: -20 }}

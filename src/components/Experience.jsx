@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FaToggleOn, FaToggleOff, FaExternalLinkAlt } from "react-icons/fa";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 /*
   Experiences data (keep images in public/images/)
@@ -156,59 +156,78 @@ export default function Experience() {
   const [showScrollView, setShowScrollView] = useState(false);
 
   return (
-    <section id="experience" className="relative text-gray-200 py-24 px-6 flex flex-col items-center">
+    <section
+      id="experience"
+      className="relative text-gray-200 py-24 px-6 flex flex-col items-center"
+    >
       {/* Title + toggle */}
-      <div className="flex justify-between w-full max-w-5xl items-center mb-10">
         <motion.h3
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-nevis text-4xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+          className="font-nevis text-4xl font-bold mt-8 mb-10 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
         >
           Experience
         </motion.h3>
 
-        <button
-          onClick={() => setShowScrollView((v) => !v)}
-          className="flex items-center gap-2 bg-gray-800/60 hover:bg-gray-700 text-white px-4 py-2 rounded-full text-sm font-medium border border-gray-600 transition"
-          aria-pressed={showScrollView}
-        >
-          {showScrollView ? (<><FaToggleOn className="text-cyan-400" /> Scroll View</>) : (<><FaToggleOff className="text-gray-400" /> Timeline View</>)}
-        </button>
-      </div>
+        {/* Toggle Switch */}
+        <div className="w-full max-w-5xl flex justify-end mb-10">
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-gray-400">Toggle view</span>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showScrollView}
+                onChange={() => setShowScrollView(!showScrollView)}
+                className="sr-only peer"
+              />
+              <div className="w-10 h-5 bg-gray-700 rounded-full peer peer-checked:bg-blue-500 transition"></div>
+              <span className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full transition peer-checked:translate-x-5"></span>
+            </label>
+          </div>
+        </div>
 
       {/* If toggle OFF -> show clean vertical "alternate" timeline (default) */}
       {!showScrollView ? (
-        <div className="w-full max-w-5xl relative pl-8">
-          <div className="absolute left-6 top-0 bottom-0 w-[2px] bg-gray-700/50 rounded"></div>
-          <div className="space-y-12">
-            {experiences.map((exp, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: idx * 0.06 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                <div className="absolute -left-8 top-2 w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_0_14px_rgba(59,130,246,0.35)]" />
-                <div className="bg-gray-800/30 border border-gray-700 rounded-xl p-6 backdrop-blur-sm shadow-md">
-                  <h3 className="text-lg font-semibold text-cyan-300">
-                    {exp.role} <span className="text-gray-300 font-medium">• {exp.company}</span>
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-3">{exp.year} • {exp.location}</p>
-                  <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
-                    {exp.points.map((p, i) => <li key={i}>{p}</li>)}
-                  </ul>
-                  <div className="mt-3">
-                    <a href="#" className="inline-flex items-center text-cyan-400 text-xs hover:underline">
-                      <FaExternalLinkAlt className="mr-1" /> View Project
-                    </a>
-                  </div>
+        <div className="w-full max-w-5xl relative space-y-8">
+          {experiences.map((exp, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: idx * 0.06 }}
+              viewport={{ once: true }}
+              className="relative flex flex-col md:flex-row bg-gray-800/30 border border-gray-700 rounded-xl overflow-hidden backdrop-blur-sm shadow-md"
+            >
+              {/* Left content */}
+              <div className="relative md:w-2/3 z-10 p-6">
+                <div className="absolute -left-8 top-8 w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_0_14px_rgba(59,130,246,0.35)]" />
+                <h3 className="text-lg font-semibold text-cyan-300">
+                  {exp.role} <span className="text-gray-300 font-medium">• {exp.company}</span>
+                </h3>
+                <p className="text-sm text-gray-400 mb-3">{exp.year} • {exp.location}</p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
+                  {exp.points.map((p, i) => <li key={i}>{p}</li>)}
+                </ul>
+                <div className="mt-3">
+                  <a href="#" className="inline-flex items-center text-cyan-400 text-xs hover:underline">
+                    <FaExternalLinkAlt className="mr-1" /> View Project
+                  </a>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+
+              {/* Right-side image (half-card fade overlay) */}
+              <div className="relative md:w-1/2 h-48 md:h-auto">
+                <img
+                  src={exp.image}
+                  alt={exp.company}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Left to right fade (black → transparent) */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#090c11] via-[#090c11]/70 to-transparent" />
+              </div>
+            </motion.div>
+          ))}
         </div>
       ) : (
         // SHOW the scroll timeline component (which contains useScroll inside)

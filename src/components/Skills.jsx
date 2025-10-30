@@ -1,4 +1,5 @@
 import React, { useRef, useMemo, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
 import { Html, Line, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
@@ -243,7 +244,7 @@ function Stars({ count = 80 }) {
 function StaticSkillsView() {
   return (
     <div className="w-full flex justify-center">
-      <div className="max-w-4xl bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg p-10 text-gray-300">
+      <div className="relative bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg p-10 text-gray-300">
         {skillsData.map((cat, i) => (
           <div key={i} className="mb-8 text-left">
             <h3 className="text-lg font-semibold mb-2 tracking-wide text-cyan-400">
@@ -253,7 +254,7 @@ function StaticSkillsView() {
               {cat.skills.map((s) => (
                 <div
                   key={s.id}
-                  className="flex items-center gap-2 bg-gray-800/40 px-2 py-2 rounded-lg"
+                  className="flex items-center gap-2 px-2 py-2 rounded-lg"
                 >
                   <img src={s.icon} alt={s.name} className="w-5 h-5 object-contain opacity-90" />
                   <span className="text-gray-300 text-sm">{s.name}</span>
@@ -322,10 +323,24 @@ export default function Skills() {
   };
 
   return (
-    <section className="relative min-h-[90vh] py-12 flex flex-col items-center">
-      <div className="flex justify-between items-center w-full max-w-6xl px-8 mb-6">
-        <h2 className="text-3xl font-bold text-cyan-400">Skills</h2>
-        <div className="flex items-center space-x-2">
+    <section
+      id="skills"
+      className="relative text-gray-200 py-24 px-6 flex flex-col items-center"
+    >
+
+      {/* Title + toggle */}
+
+        <motion.h3
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="font-nevis text-4xl font-bold mt-8 mb-10 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent"
+        >
+          Skills
+        </motion.h3>
+
+        <div className="w-full max-w-5xl flex justify-end mb-10">
+          <div className="flex items-center space-x-2">
           <span className="text-sm text-gray-400">Play mode</span>
           <label className="relative inline-flex items-center cursor-pointer">
             <input

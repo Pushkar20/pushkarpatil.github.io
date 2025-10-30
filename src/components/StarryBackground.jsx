@@ -23,10 +23,14 @@ const StarryBackground = () => {
       ctx.clearRect(0, 0, width, height);
 
       // background gradient
-      const gradient = ctx.createLinearGradient(0, 0, 0, height);
-      gradient.addColorStop(0, "rgba(0, 8, 20, 1)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 1)");
-      ctx.fillStyle = gradient;
+      // const gradient = ctx.createLinearGradient(0, 0, 0, height);
+      // gradient.addColorStop(0, "rgba(0, 8, 20, 1)");
+      // gradient.addColorStop(1, "rgba(0, 0, 0, 1)");
+      // ctx.fillStyle = gradient;
+      // ctx.fillRect(0, 0, width, height);
+      
+      // Fill full background black
+      ctx.fillStyle = "rgba(0, 0, 0, 1)";
       ctx.fillRect(0, 0, width, height);
 
       // 🌟 twinkling stars
@@ -35,7 +39,7 @@ const StarryBackground = () => {
         if (star.alpha <= 0 || star.alpha >= 1) star.speed = -star.speed;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${star.alpha})`;
+        ctx.fillStyle = `rgba(255,255,255,${star.alpha * 0.9})`;
         ctx.fill();
       }
 
@@ -90,8 +94,8 @@ const StarryBackground = () => {
 
     // 💫 Rare, dramatic shooting stars
     const interval = setInterval(() => {
-      if (Math.random() < 0.8) spawnShootingStar(); // 80% chance every 5-7s
-    }, 5000 + Math.random() * 2000);
+      if (Math.random() < 0.8) spawnShootingStar(); // 80% chance every 3-5s
+    }, 3000 + Math.random() * 2000);
 
     // 🌟 occasional interaction trigger
     // const handleInteraction = () => {

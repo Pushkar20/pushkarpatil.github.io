@@ -5,7 +5,6 @@ const About = () => {
   return (
     <section
       id="about"
-      // Removed solid background — only use slight transparency for blending with stars
       className="relative text-gray-200 py-24 px-6 flex flex-col items-center"
     >
       {/* About Me Heading */}
@@ -24,7 +23,7 @@ const About = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         // soft glass look (not solid, not too dark)
-        className="font-nevis max-w-3xl text-center text-gray-300 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl shadow-lg p-8 leading-relaxed"
+        className="max-w-3xl text-center bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg text-gray-300 p-8 leading-relaxed"
       >
         <p className="mb-4">
           Hi, I'm <span className="text-blue-400 font-semibold">Pushkar Patil</span>, a passionate Software Developer with 2.5+ years of experience in Embedded Systems and Automotive Software.
@@ -41,7 +40,7 @@ const About = () => {
       </motion.div>
 
       {/* CTA Button */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.6, duration: 0.8 }}
@@ -53,7 +52,7 @@ const About = () => {
         >
           View My Projects
         </a>
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 };

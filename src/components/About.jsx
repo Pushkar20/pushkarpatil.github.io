@@ -26,16 +26,19 @@ const About = () => {
         className="max-w-3xl text-center bg-gray-900/40 backdrop-blur-md border border-gray-800 rounded-2xl shadow-lg text-gray-300 p-8 leading-relaxed"
       >
         <p className="mb-4">
-          Hi, I'm <span className="text-blue-400 font-semibold">Pushkar Patil</span>, a passionate Software Developer with 2.5+ years of experience in Embedded Systems and Automotive Software.
+          Hi, I'm <span className="text-blue-400 font-semibold">Pushkar Patil</span>, a passionate Software Developer with 2.5+ years of experience in Automotive Software, Automation and Embedded systems.
         </p>
         <p className="mb-4">
-          I specialize in <span className="text-blue-400 font-semibold">C++</span>, <span className="text-blue-400 font-semibold">Python</span>, and communication protocols like <span className="text-blue-400 font-semibold">CAN</span> and <span className="text-blue-400 font-semibold">Ethernet</span>. My work spans the entire software development lifecycle — from designing robust solutions to building scalable, reliable systems in fast-paced, agile environments.
+          I specialize in <span className="text-blue-400 font-semibold">Python</span>, <span className="text-blue-400 font-semibold">C++</span>, and communication protocols like <span className="text-blue-400 font-semibold">CAN</span> and <span className="text-blue-400 font-semibold">Ethernet</span>. Over the years, I’ve worked across the entire software development lifecycle, from designing and coding to validation and optimization, always aiming to build systems that are reliable, scalable, and efficient.
         </p>
         <p className="mb-4">
-          I'm also deeply involved in AI-driven automation tools and creative AI projects that blend technology with imagination 🚀. In addition to my technical expertise, I love pushing boundaries in test infrastructure automation — recently, I built and currently own a <span className="text-blue-400 font-semibold">farm of 100+ automated testbenches</span>, enabling CI/CD integration and ensuring system reliability through <span className="text-blue-400 font-semibold">Ansible</span> and automation workflows.
+          Currently, I’m working on a project where I’ve built and maintain a <span className="text-blue-400 font-semibold">'farm' of 100+ automated testbenches</span>. These benches are used across the organization for testing and validation, with full <span className="text-blue-400 font-semibold">CI/CD</span> integration and ensuring automated health monitoring using <span className="text-blue-400 font-semibold">Ansible</span> and other custom workflows.
+        </p>
+        <p className="mb-4">
+          Beyond my core work, I love exploring <span className="text-blue-400 font-semibold">AI</span>-driven automation tools and creative AI projects that blend technology with imagination 🚀. When I’m not coding, I’m usually experimenting with ideas that connect software and hardware, anything that challenges me to think differently.
         </p>
         <p>
-          When I'm not coding, I enjoy exploring innovative ways to bridge software with hardware, delivering impactful solutions that improve efficiency and scalability. Check out this page, which I’ve completely built using AI and a few prompts! 🤖✨
+          This page is just a small reflection of that curiosity. I've made it to showcase what’s possible when creativity meets the right tools 🤖✨
         </p>
       </motion.div>
 

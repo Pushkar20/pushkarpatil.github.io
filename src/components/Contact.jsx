@@ -39,9 +39,9 @@ const Contact = () => {
         </a>
       </div>
 
-      <p className="text-s text-gray-500">
+      {/* <p className="text-s text-gray-500">
         (This is still a work in progress. I'm exploring Node.js via this 😉)
-      </p>
+      </p> */}
 
       <p className="text-xs text-gray-500">
         © {new Date().getFullYear()} Pushkar Patil — Built with React & Tailwind

@@ -6,7 +6,7 @@ const skillsData = [
     skills: [
       { id: "python", name: "Python", color: "#61dafb", icon: base + "python-icon.png", isConstellation: true },
       { id: "cpp", name: "C/C++", color: "#86efac", icon: base + "cpp-icon.png", isConstellation: true },
-      { id: "capl", name: "CAPL", color: "#ffd166", icon: base + "capl-icon.png", isConstellation: false },
+      { id: "capl", name: "CAPL", color: "#ffd166", icon: base + "canoe-icon.png", isConstellation: false },
       { id: "js", name: "JavaScript (Basics)", color: "#facc15", icon: base + "javascript-icon.svg", isConstellation: false },
       { id: "shell", name: "Shell Scripting", color: "#c084fc", icon: base + "shell-icon.png", isConstellation: true },
     ],

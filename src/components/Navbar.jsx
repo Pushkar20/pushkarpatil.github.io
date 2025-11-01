@@ -7,6 +7,7 @@ function Navbar() {
         <a href="#hero" className="text-lg font-heading accent">Pushkar Patil</a>
         <div className="flex items-center gap-3">
           <a href="#about" className="text-sm text-muted hover:accent transition">About</a>
+          <a href="#experience" className="text-sm text-muted hover:accent transition">Experience</a>
           <a href="#skills" className="text-sm text-muted hover:accent transition">Skills</a>
           <a href="#projects" className="text-sm text-muted hover:accent transition">Projects</a>
           <a href="#contact" className="text-sm text-muted hover:accent transition">Contact</a>

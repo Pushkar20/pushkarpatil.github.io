@@ -46,7 +46,7 @@ const StarryBackground = () => {
     // 🔹 Expose special trigger to outside world (HeroGameCanvas)
     externalTrigger = () => {
       rewardMode = true;
-      rewardTimer = 180; // ~3 seconds
+      rewardTimer = 200; // ~3 seconds
       for (let i = 0; i < 15; i++) spawnShootingStar();
     };
 

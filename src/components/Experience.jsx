@@ -209,11 +209,11 @@ export default function Experience() {
                 <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
                   {exp.points.map((p, i) => <li key={i}>{p}</li>)}
                 </ul>
-                <div className="mt-3">
+                {/* <div className="mt-3">
                   <a href="#" className="inline-flex items-center text-cyan-400 text-xs hover:underline">
                     <FaExternalLinkAlt className="mr-1" /> View Project
                   </a>
-                </div>
+                </div> */}
               </div>
 
               {/* Right-side image (half-card fade overlay) */}

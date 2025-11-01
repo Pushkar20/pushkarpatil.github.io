@@ -154,6 +154,17 @@ body {
   scrollbar-color: #00ffff transparent;
 }
 
+@keyframes fadeOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.animate-fadeOut {
+  animation: fadeOut 4s ease forwards;
+}
+
 /* Optional: animate subtle pulse for glowing line effect */
 /* @keyframes pulseGlow {
   0% { box-shadow: 0 0 6px #00ffff; }

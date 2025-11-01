@@ -256,7 +256,7 @@ function StaticSkillsView() {
                   key={s.id}
                   className="flex items-center gap-2 px-2 py-2 rounded-lg"
                 >
-                  <img src={s.icon} alt={s.name} className="w-5 h-5 object-contain opacity-90" />
+                  <img src={s.icon} alt={s.name} className="w-8 h-8 object-contain opacity-90" />
                   <span className="text-gray-300 text-sm">{s.name}</span>
                 </div>
               ))}
@@ -269,20 +269,30 @@ function StaticSkillsView() {
 }
 
 /* ---------- MAIN COMPONENT ---------- */
-export default function Skills() {
-  const [playMode, setPlayMode] = useState(false);
+export default function NeuralSkillMap() {
+  const [playMode, setPlayMode] = useState(false); // false = static view, true = constellation
+  const [showHint, setShowHint] = useState(false); // 💫 for "drag to explore" message
   const controlsRef = useRef();
 
-  const constellations = useMemo(
-    () =>
-      skillsData.flatMap((cat, i) =>
-        cat.skills.filter((s) => s.isConstellation).map((s, idx) => ({
-          ...s,
-          position: [(idx - 2) * 3.5, (i - 2) * 0.5, 0],
-        }))
-      ),
-    []
-  );
+  const constellations = useMemo(() => {
+    const allConstellations = skillsData.flatMap((cat) =>
+      cat.skills.filter((s) => s.isConstellation)
+    );
+
+    const arranged = allConstellations.map((s, i) => {
+      const perRow = 3; // max constellations per row
+      const row = Math.floor(i / perRow);
+      const col = i % perRow;
+
+      // Horizontal and vertical spacing
+      const x = (col - (perRow - 1) / 2) * 5; // 5 = space between constellations
+      const y = -(row * 4); // 4 = space between rows
+
+      return { ...s, position: [x, y, 0] };
+    });
+
+    return arranged;
+  }, []);
 
   const extraSkills = useMemo(
     () =>
@@ -321,6 +331,15 @@ export default function Skills() {
       prev.map((s) => (s.id === id ? { ...s, position: newPos } : s))
     );
   };
+
+  // 💫 Show hint for a few seconds only once when switching to playMode
+  useEffect(() => {
+    if (playMode) {
+      setShowHint(true);
+      const timer = setTimeout(() => setShowHint(false), 4000); // hide after 4s
+      return () => clearTimeout(timer);
+    }
+  }, [playMode]);
 
   return (
     <section
@@ -373,6 +392,7 @@ export default function Skills() {
                 controlsRef={controlsRef}
               />
             ))}
+
             <Stars count={80} />
             <OrbitControls
               ref={controlsRef}
@@ -383,6 +403,15 @@ export default function Skills() {
               dampingFactor={0.05}
             />
           </Canvas>
+
+          {/* 💬 Hint message */}
+          {showHint && (
+            <div className="absolute inset-0 flex justify-center items-center pointer-events-none">
+              <div className="bg-black/40 text-gray-200 text-lg px-6 py-3 rounded-full backdrop-blur-md shadow-lg animate-fadeOut">
+                💫 Drag around with your mouse to explore!
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <StaticSkillsView />

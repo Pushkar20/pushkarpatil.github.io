@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { triggerShootingStars } from "./StarryBackground"; // 👈 Add this import
 
 /**
  * HeroGameCanvas.jsx
@@ -15,6 +16,7 @@ export default function HeroGameCanvas() {
   const canvasRef = useRef(null);
   const [running, setRunning] = useState(false); // start paused
   const [gameKey, setGameKey] = useState(0); // reset key to re-create the scene
+  const [showTitle, setShowTitle] = useState(true); // 👈 controls the title display
 
   useEffect(() => {
     // local per-effect game state (re-created when gameKey changes)
@@ -42,6 +44,7 @@ export default function HeroGameCanvas() {
     let bullets = [];
     let enemies = [];
     let direction = 1; // 1 => right, -1 => left
+    let gameWon = false;
 
     // --- Initialize enemies centered horizontally ---
     const initEnemies = () => {
@@ -52,28 +55,23 @@ export default function HeroGameCanvas() {
 
       for (let r = 0; r < ENEMY_ROWS; r++) {
         for (let c = 0; c < ENEMY_COLS; c++) {
-          const x = startX + c * (ENEMY_W + ENEMY_HSPACE);
-          const y = startY + r * ENEMY_VSPACE;
-          enemies.push({ x, y });
+          enemies.push({ x: startX + c * (ENEMY_W + ENEMY_HSPACE), y: startY + r * ENEMY_VSPACE });
         }
       }
 
       // reset direction and bullets
       direction = 1;
       bullets = [];
+      gameWon = false;
     };
-
     initEnemies();
 
     // --- Drawing helpers ---
     const drawBackground = () => {
       // Soft radial gradient background (fade to transparent)
       const gradient = ctx.createRadialGradient(
-        CANVAS_W / 2,
-        CANVAS_H / 2,
-        20,
-        CANVAS_W / 2,
-        CANVAS_H / 2,
+        CANVAS_W / 2, CANVAS_H / 2, 20,
+        CANVAS_W / 2, CANVAS_H / 2,
         Math.max(CANVAS_W, CANVAS_H) * 0.8
       );
       gradient.addColorStop(0, "rgba(10,20,40,0.92)");
@@ -104,7 +102,8 @@ export default function HeroGameCanvas() {
 
     // --- Game logic update (ONLY run when `running === true`) ---
     const update = () => {
-      // ship move
+      if (gameWon) return;
+
       if (keys["ArrowLeft"]) ship.x -= ship.speed;
       if (keys["ArrowRight"]) ship.x += ship.speed;
       // clamp ship
@@ -139,6 +138,12 @@ export default function HeroGameCanvas() {
           }
         }
       });
+
+      // ✅ Check if all enemies are gone
+      if (!gameWon && enemies.length === 0) {
+        gameWon = true;
+        triggerShootingStars(); // 🎉 reward animation in background
+      }
     };
 
     // --- Draw frame ---
@@ -182,9 +187,8 @@ export default function HeroGameCanvas() {
       // allow movement key capture even if paused (so pressing arrow doesn't feel blocked),
       // but only allow shooting when running === true
       keys[e.key] = true;
-      if ((e.key === " " || e.key === "ArrowUp") && running) {
+      if ((e.key === " " || e.key === "ArrowUp") && running)
         bullets.push({ x: ship.x + ship.width / 2, y: ship.y - 10 });
-      }
     };
     const handleKeyUp = (e) => {
       keys[e.key] = false;
@@ -196,8 +200,7 @@ export default function HeroGameCanvas() {
     // pause when tab hidden to save CPU
     const handleVisibility = () => {
       if (document.hidden) {
-        // do not auto-resume — just pause
-        // (we'll not change running here, but you can if you prefer auto-pause)
+        // pause silently on tab switch
       }
     };
     document.addEventListener("visibilitychange", handleVisibility);
@@ -223,7 +226,13 @@ export default function HeroGameCanvas() {
     setRunning(false);
   };
 
-  const togglePlay = () => setRunning((r) => !r);
+  const togglePlay = () => {
+    setRunning((r) => {
+      const next = !r;
+      setShowTitle(!next); // hide when playing, show when paused
+      return next;
+    });
+  };
 
   return (
     <div className="relative" style={{ width: 420, height: 350 }}>
@@ -241,6 +250,20 @@ export default function HeroGameCanvas() {
           boxShadow: "0 20px 40px rgba(2,6,23,0.55)",
         }}
       />
+
+      {/* 🎮 Game Title Overlay */}
+      {showTitle && (
+        <div
+          className="absolute inset-0 flex items-center justify-center text-cyan-300 font-bold text-2xl transition-opacity duration-700"
+          style={{
+            background: "rgba(0,0,0,0.4)",
+            backdropFilter: "blur(6px)",
+            borderRadius: 18,
+          }}
+        >
+          SPACE DEFENDER 🚀
+        </div>
+      )}
 
       {/* Controls (top-left) */}
       <div

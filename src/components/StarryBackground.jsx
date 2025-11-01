@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
 
+let externalTrigger = null; // 🔹 Global handle to trigger special effect
+
+export const triggerShootingStars = () => {
+  if (externalTrigger) externalTrigger();
+};
+
 const StarryBackground = () => {
   useEffect(() => {
     const canvas = document.getElementById("starryCanvas");
@@ -18,22 +24,40 @@ const StarryBackground = () => {
     }));
 
     const shootingStars = [];
+    let rewardMode = false;
+    let rewardTimer = 0;
+
+    // 🌠 Spawn a single shooting star
+    const spawnShootingStar = () => {
+      if (shootingStars.length >= 5) return;
+      const angle = Math.random() * (Math.PI / 6) + Math.PI / 12;
+      const startX = Math.random() * width * 0.8;
+      const startY = Math.random() * height * 0.4;
+      shootingStars.push({
+        x: startX,
+        y: startY,
+        vx: Math.cos(angle),
+        vy: Math.sin(angle),
+        length: 250 + Math.random() * 150,
+        alpha: 1,
+      });
+    };
+
+    // 🔹 Expose special trigger to outside world (HeroGameCanvas)
+    externalTrigger = () => {
+      rewardMode = true;
+      rewardTimer = 180; // ~3 seconds
+      for (let i = 0; i < 15; i++) spawnShootingStar();
+    };
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // background gradient
-      // const gradient = ctx.createLinearGradient(0, 0, 0, height);
-      // gradient.addColorStop(0, "rgba(0, 8, 20, 1)");
-      // gradient.addColorStop(1, "rgba(0, 0, 0, 1)");
-      // ctx.fillStyle = gradient;
-      // ctx.fillRect(0, 0, width, height);
-      
-      // Fill full background black
+      // 🎨 Black background
       ctx.fillStyle = "rgba(0, 0, 0, 1)";
       ctx.fillRect(0, 0, width, height);
 
-      // 🌟 twinkling stars
+      // 🌟 Stars
       for (let star of stars) {
         star.alpha += star.speed;
         if (star.alpha <= 0 || star.alpha >= 1) star.speed = -star.speed;
@@ -43,7 +67,7 @@ const StarryBackground = () => {
         ctx.fill();
       }
 
-      // 🌠 shooting stars
+      // 🌠 Shooting stars
       for (let s of shootingStars) {
         ctx.beginPath();
         const grad = ctx.createLinearGradient(
@@ -66,45 +90,18 @@ const StarryBackground = () => {
         s.alpha -= 0.008;
       }
 
-      // remove faded stars
-      while (shootingStars.length && shootingStars[0].alpha <= 0) {
+      while (shootingStars.length && shootingStars[0].alpha <= 0)
         shootingStars.shift();
+
+      // ✨ Reward-mode periodic stars
+      if (rewardMode && rewardTimer-- > 0) {
+        if (Math.random() < 0.3) spawnShootingStar();
+      } else if (rewardTimer <= 0) {
+        rewardMode = false;
       }
 
       requestAnimationFrame(draw);
     };
-
-    // 🪄 Function to spawn cinematic shooting star
-    const spawnShootingStar = () => {
-      if (shootingStars.length >= 3) return; // limit max visible stars
-
-      const angle = Math.random() * (Math.PI / 6) + Math.PI / 12;
-      const startX = Math.random() * width * 0.6;
-      const startY = Math.random() * height * 0.4;
-
-      shootingStars.push({
-        x: startX,
-        y: startY,
-        vx: Math.cos(angle),
-        vy: Math.sin(angle),
-        length: 250 + Math.random() * 150, // long tail
-        alpha: 1,
-      });
-    };
-
-    // 💫 Rare, dramatic shooting stars
-    const interval = setInterval(() => {
-      if (Math.random() < 0.8) spawnShootingStar(); // 80% chance every 3-5s
-    }, 3000 + Math.random() * 2000);
-
-    // 🌟 occasional interaction trigger
-    // const handleInteraction = () => {
-    //   if (Math.random() < 0.4) spawnShootingStar();
-    // };
-
-    // window.addEventListener("scroll", handleInteraction);
-    // window.addEventListener("mousemove", handleInteraction);
-    // window.addEventListener("click", handleInteraction);
 
     draw();
 
@@ -115,8 +112,8 @@ const StarryBackground = () => {
     window.addEventListener("resize", handleResize);
 
     return () => {
-      clearInterval(interval);
       window.removeEventListener("resize", handleResize);
+      externalTrigger = null;
       // window.removeEventListener("scroll", handleInteraction);
       // window.removeEventListener("mousemove", handleInteraction);
       // window.removeEventListener("click", handleInteraction);

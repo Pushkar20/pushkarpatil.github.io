@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/pushkarpatil.github.io/static/css/main.f74c6a5d.css",
-    "main.js": "/pushkarpatil.github.io/static/js/main.e85d9c25.js",
+    "main.css": "/pushkarpatil.github.io/static/css/main.8f801af4.css",
+    "main.js": "/pushkarpatil.github.io/static/js/main.717f2e87.js",
     "static/media/soria-font.ttf": "/pushkarpatil.github.io/static/media/soria-font.087527ae9c47f8daf2ad.ttf",
     "static/media/Skyscapers.ttf": "/pushkarpatil.github.io/static/media/Skyscapers.87129ff57d8c76c12735.ttf",
     "static/media/OstrichSansInline-Regular.otf": "/pushkarpatil.github.io/static/media/OstrichSansInline-Regular.3b96f7d7e15d17dd1149.otf",
     "static/media/nevis.ttf": "/pushkarpatil.github.io/static/media/nevis.706a45408cbec85d3b77.ttf",
     "index.html": "/pushkarpatil.github.io/index.html",
-    "main.f74c6a5d.css.map": "/pushkarpatil.github.io/static/css/main.f74c6a5d.css.map",
-    "main.e85d9c25.js.map": "/pushkarpatil.github.io/static/js/main.e85d9c25.js.map"
+    "main.8f801af4.css.map": "/pushkarpatil.github.io/static/css/main.8f801af4.css.map",
+    "main.717f2e87.js.map": "/pushkarpatil.github.io/static/js/main.717f2e87.js.map"
   },
   "entrypoints": [
-    "static/css/main.f74c6a5d.css",
-    "static/js/main.e85d9c25.js"
+    "static/css/main.8f801af4.css",
+    "static/js/main.717f2e87.js"
   ]
 }

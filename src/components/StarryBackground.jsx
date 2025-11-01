@@ -90,6 +90,7 @@ const StarryBackground = () => {
         s.alpha -= 0.008;
       }
 
+      // remove faded stars
       while (shootingStars.length && shootingStars[0].alpha <= 0)
         shootingStars.shift();
 
@@ -105,6 +106,11 @@ const StarryBackground = () => {
 
     draw();
 
+    // 💫 Random cinematic shooting stars every few seconds
+    const randomInterval = setInterval(() => {
+      if (Math.random() < 0.8) spawnShootingStar(); // 80% chance every 3-5s
+    }, 3000 + Math.random() * 2000);
+
     const handleResize = () => {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
@@ -113,6 +119,7 @@ const StarryBackground = () => {
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      clearInterval(randomInterval);
       externalTrigger = null;
       // window.removeEventListener("scroll", handleInteraction);
       // window.removeEventListener("mousemove", handleInteraction);
